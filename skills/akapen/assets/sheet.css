@@ -1,0 +1,64 @@
+/* ===== akapen 標準シート (build.py が埋め込む固定 CSS)。色は 7 トークン: 赤 = 提案・訂正・論点 / 青 = 導線 / 残りは無彩色 ===== */
+:root{--ink:#212529;--muted:#64707C;--line:#DEE2E6;--paper:#FFFFFF;--paper-dim:#F6F8FA;--accent:#2563EB;--red:#DC2626}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans',-apple-system,sans-serif;font-size:14.5px;line-height:1.9;margin:0;border-top:3px solid var(--red);padding:0 16px 40px}
+main{max-width:760px;margin:0 auto}
+.kicker{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12.5px;letter-spacing:.08em;color:var(--red);font-weight:600;padding-top:14px}
+h1{font-size:25px;line-height:1.45;margin:8px 0 12px}
+h2{font-size:19px;line-height:1.45;margin:30px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+h3{font-size:15px;line-height:1.5;margin:0 0 8px}
+p{margin:8px 0}
+ul{margin:6px 0;padding-left:1.4em}li{margin:3px 0}
+a{color:var(--accent)}
+code{font-family:'IBM Plex Mono',Menlo,monospace;font-size:.93em}
+.concl{border:1px solid var(--line);border-left:3px solid var(--red);border-radius:10px;padding:14px 18px;margin:10px 0}
+.red{color:var(--red)}
+.m{color:var(--muted);font-size:12.5px;line-height:1.7}
+.mono{font-family:'IBM Plex Mono',Menlo,monospace;font-size:13.5px}
+.gl{font-size:12.5px;color:var(--muted);line-height:1.75;border-left:2px solid var(--line);padding-left:10px;margin:8px 0}
+.btn{display:inline-block;border:1px solid var(--accent);color:var(--accent);background:var(--paper);border-radius:8px;padding:4px 14px;font-size:13px;text-decoration:none;cursor:pointer;font-family:inherit;line-height:1.7}
+.btn:hover{background:var(--paper-dim)}
+figure{margin:14px 0 6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.6;margin:8px 0}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-size:11.5px;letter-spacing:.06em;color:var(--muted);font-weight:500;white-space:nowrap;border-bottom:1.5px solid var(--ink)}
+td.n{font-family:'IBM Plex Mono',Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+tr.hl td{background:#FFF5F5;color:var(--red);font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:10px 0}
+summary{cursor:pointer;color:var(--accent);font-weight:500;font-size:13.5px}
+details p,details li{font-size:13px;color:var(--muted)}
+/* 問いカード (自己完結 — 判断材料と回答欄を 1 か所に。択一 / 保留 / 補足) */
+.qcard{border:1px solid var(--line);border-left:3px solid var(--red);border-radius:10px;padding:12px 16px;margin:12px 0}
+.qcard .qt{font-weight:700;margin:0 0 6px}
+.qcard label{display:block;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;cursor:pointer;line-height:1.7}
+.qcard label:has(input:checked){border-color:var(--red);background:rgba(220,38,38,.06)}
+.qcard input[type=radio]{margin:0 8px 0 0;accent-color:#DC2626;vertical-align:-1px}
+.qcard .opt-d{color:var(--muted);font-size:12.5px;margin:2px 0 0 22px;line-height:1.6}
+.qcard label.hold{border-style:dashed}
+.qcard label.hold textarea{display:none;min-height:44px}
+.qcard label.hold:has(input:checked) textarea{display:block}
+.qcard label .thumb{display:block;margin:8px 0 2px 22px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper-dim)}
+.qcard label .thumb .fig{margin:0}.qcard label .thumb figcaption{font-size:12px}
+.qcard label:has(input:checked) .thumb{border-color:var(--red);background:rgba(220,38,38,.04)}
+.qcard > textarea{min-height:40px}
+.rec{font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;color:var(--red);border:1px solid var(--red);border-radius:4px;padding:0 5px;margin-left:4px;white-space:nowrap}
+/* A/B 対比 (小さい図が並ぶ格子。640px 以下で縦積み) */
+.ab{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 6px}
+@media (max-width:640px){.ab{grid-template-columns:1fr}th{white-space:normal}}
+del{color:var(--muted)}
+footer{margin-top:28px;border-top:1px solid var(--line);padding-top:10px}
+#akSheet{position:relative;padding-top:8px}
+/* ---- 回答フォーム ---- */
+#akForm{margin-top:28px}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;background:var(--paper)}
+textarea{width:100%;min-height:54px;margin-top:8px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-family:inherit;font-size:13.5px;line-height:1.7;resize:vertical}
+textarea:focus{outline:none;border-color:var(--red)}
+.redpen textarea{min-height:110px}
+.clearsel{display:inline-block;margin-top:8px;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline}
+.sendbar{position:sticky;bottom:0;background:linear-gradient(rgba(255,255,255,0),var(--paper) 30%);padding:20px 0 12px;text-align:center}
+#genBtn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+#genBtn:hover{filter:brightness(.95)}
+.status{margin-top:8px;font-size:12.5px;color:var(--muted);min-height:18px}
+.status.ok{color:var(--ink)}.status.err{color:var(--muted)}
+#out{display:none;font-family:'IBM Plex Mono',Menlo,monospace;font-size:12.5px;min-height:170px;margin-top:10px;text-align:left}
+@media print{#akForm,.qcard label.hold,.qcard > textarea,.clearsel{display:none}summary{color:var(--ink)}details{border:none;padding:0}details[open] summary{display:none}}

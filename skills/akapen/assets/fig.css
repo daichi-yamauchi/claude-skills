@@ -1,0 +1,49 @@
+/* ===== akapen 図 (fig: 絶対配置 + JS 実測レイアウト / seq: CSS だけ / shot: スクショ + overlay) ===== */
+.fig,.shot,.rawsvg{margin:14px 0 6px}
+.ab .fig,.ab .shot,.ab .rawsvg{margin:0}
+.fig .fwrap{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.fig .fcanvas{position:relative;transform-origin:0 0;line-height:1.5}
+.fig .fcanvas .lines{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:2;max-width:none;height:auto}
+.fig .fcanvas .ttl{position:absolute;left:16px;top:6px;right:16px;font-weight:600;font-size:1.09em;color:var(--ink);line-height:1.4}
+.fig .node,.fig .note{position:absolute;padding:.4em .6em;color:var(--muted)}
+.fig .node{background:var(--paper-dim);border:1px solid var(--line);border-radius:6px}
+.fig .node.r{background:#FFF5F5;border:1.4px solid var(--red)}
+.fig .node.dashed{background:transparent;border:1.2px dashed var(--red)}
+.fig .node.zone{background:var(--paper-dim);z-index:0}
+.fig .node.zone b{color:var(--muted);font-weight:400}
+.fig .node:not(.zone){z-index:1}
+.fig .node b{display:block;color:var(--ink);font-weight:400}
+.fig .node.r b,.fig .node.dashed b{color:var(--red);font-weight:600}
+.fig .node .rd,.fig .note .rd{color:var(--red);font-weight:600}
+.fig code{font-family:'IBM Plex Mono',Menlo,monospace;font-size:.95em;color:var(--ink)}
+.fig .note{padding:0;line-height:1.5}
+.fig .note b{display:block;font-weight:400;color:var(--muted)}
+.fig .mark{position:absolute;z-index:3;transform:translate(-50%,-50%);width:22px;height:22px;border:2px solid var(--red);border-radius:50%;background:rgba(255,255,255,.9);color:var(--red);font:600 12px/18px 'IBM Plex Mono',Menlo,monospace;text-align:center}
+.fig .edge{display:none}
+.fig .elabel{font-size:1em;fill:#64707C;font-family:inherit;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.fig .elabel.r{fill:#DC2626;font-weight:600}
+.fig figcaption,.shot figcaption,.rawsvg figcaption{font-size:12.5px;color:var(--muted);line-height:1.6;padding-top:4px}
+/* seq: 参加者を等間隔の列に、メッセージは上から順に流す (座標なし) */
+.fig.seq{position:relative;line-height:1.45}
+.fig.seq .ttl{font-weight:600;font-size:1.09em;color:var(--ink);margin:0 0 4px}
+.fig.seq .actors{position:relative;height:1.8em}
+.fig.seq .actor{position:absolute;transform:translateX(-50%);top:0;color:var(--ink);white-space:nowrap;font-weight:500}
+.fig.seq .lanes{position:relative;padding:6px 0 10px}
+.fig.seq .life{position:absolute;top:0;bottom:0;border-left:1px dashed var(--line)}
+.fig.seq .msg{position:relative;margin:2px 0 .9em;padding-bottom:2px;border-bottom:1.2px solid var(--muted)}
+.fig.seq .msg .lbl{padding:0 .5em;color:var(--ink)}
+.fig.seq .msg::after{content:"";position:absolute;bottom:-4.6px;width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent}
+.fig.seq .msg.l2r::after{right:0;border-left:7px solid var(--muted)}
+.fig.seq .msg.r2l::after{left:0;border-right:7px solid var(--muted)}
+.fig.seq .msg.r{border-bottom-color:var(--red)}.fig.seq .msg.r .lbl{color:var(--red);font-weight:600}
+.fig.seq .msg.r.l2r::after{border-left-color:var(--red)}.fig.seq .msg.r.r2l::after{border-right-color:var(--red)}
+.fig.seq .msg.dashed{border-bottom-style:dashed}
+.fig.seq .snote{position:relative;margin:2px 0 .8em;padding:.3em .6em;background:var(--paper-dim);border:1px solid var(--line);border-radius:4px;color:var(--muted)}
+.fig.seq .snote.r{background:#FFF5F5;border:1.2px solid var(--red);color:var(--red);font-weight:600}
+.fig.seq .gap{height:.8em}
+/* shot: スクショの上に赤の overlay (座標は画像に対する %) */
+.shotwrap{position:relative;line-height:0;margin:8px 0 4px}
+.shotwrap img{width:100%;border:1px solid var(--line);border-radius:8px;display:block}
+.shotwrap .mark{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border:2.5px solid var(--red);border-radius:50%;background:rgba(255,255,255,.78);color:var(--red);font:600 13px/21px 'IBM Plex Mono',Menlo,monospace;text-align:center}
+.shotwrap .lbl{position:absolute;transform:translateX(-50%);background:var(--red);color:#fff;font:700 11px/1.5 sans-serif;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.rawsvg svg{max-width:100%;height:auto;display:block}

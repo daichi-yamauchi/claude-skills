@@ -1,0 +1,21 @@
+{
+  "name": "daichi-skills",
+  "owner": {
+    "name": "Daichi Yamauchi"
+  },
+  "metadata": {
+    "description": "個人用の Claude Code スキル置き場。クラウドのセッションからも同じスキルを使うための marketplace",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "akapen",
+      "description": "作る前に人に決めてもらう「赤ペン先生」。論点をツリーにして、今答えられる問いをラウンドごとに全部出す。絵が要る問いは HTML シート (ソース Markdown → build.py)、絵が要らない問いは chat で聞くハイブリッド。決め切ったら確定サマリで止まり、人の「進めて」で実装に入る。シートはローカルでは file://、クラウドでは Artifact で公開して渡す",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/akapen"
+      ]
+    }
+  ]
+}
