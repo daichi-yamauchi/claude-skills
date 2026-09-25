@@ -350,7 +350,7 @@ def parse_q(body, qno):
         elif line.startswith('数値:'): q['numbers'] = line[3:].strip()
         else: q['extra'].append(line)
     if len(q['opts']) < 2: warn(f'問 {qno}: 選択肢が {len(q["opts"])} 個 (2 個以上、A と B の対立軸を)')
-    if not any(o['rec'] for o in q['opts']): warn(f'問 {qno}: 推奨 (A*) が無い — 未回答時にどの案で進むか決まらない')
+    if not any(o['rec'] for o in q['opts']): warn(f'問 {qno}: 推奨 (A*) が無い — 最初に選んでおく案が無く、人が全部自分で選ぶことになる')
     if not q['evidence']: warn(f'問 {qno}: 根拠: (file:line か実行結果) が無い — 事実を人に聞いていないか確認')
     for o in q['opts']:
         if o['rec'] is False and not o['pro']: warn(f'問 {qno} {o["id"]}: 非推奨の選択肢に「利点:」が無い (実質 1 択になっていないか)')
@@ -364,7 +364,8 @@ def render_q(q, figs):
     for x in q['extra']: out.append(f'<p class="m">{inline(x)}</p>')
     for o in q['opts']:
         d = ' / '.join(x for x in ([f'利点: {o["pro"]}'] if o['pro'] else []) + ([f'代償: {o["con"]}'] if o['con'] else []) + o['desc'])
-        out.append(f'<label><input type="radio" name="q{n}" value="{o["id"]}"><b>{o["id"]}. {inline(o["label"])}</b>' + ('<span class="rec">推奨</span>' if o['rec'] else ''))
+        chk = ' checked' if o['rec'] else ''
+        out.append(f'<label><input type="radio" name="q{n}" value="{o["id"]}"{chk}><b>{o["id"]}. {inline(o["label"])}</b>' + ('<span class="rec">推奨</span>' if o['rec'] else ''))
         if d: out.append(f'<div class="opt-d">{inline(d)}</div>')
         if o['fig']:
             if o['fig'] in figs:
@@ -445,7 +446,7 @@ def build(src_path, hosted=False):
     parts = [resolve(p) for p in parts]
     form = ''
     if qs:
-        form = '<p class="m">問いはそれぞれのカードで答える。迷う問いは未選択のままでよい (推奨で進む)。決める前に聞きたいことがあれば「保留」を選んで書く。</p>'
+        form = '<p class="m">問いはそれぞれのカードで答える。推奨の案があらかじめ選んである (そのままなら推奨で確定)。まだ決めたくない問いは「選択を解除」で未回答にすると、推奨では確定せず次の往復に回る。決める前に聞きたいことがあれば「保留」を選んで書く。</p>'
     html_out = f'''<!DOCTYPE html>
 <html lang="ja">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -461,7 +462,7 @@ def build(src_path, hosted=False):
 <h1>{inline(fm.get('title', ''))}</h1>
 {mock}
 {chr(10).join(parts)}
-<footer class="m">{inline(fm.get('source', 'このシートは ' + src_path.name + ' から生成'))}。回答は下のフォームから。未回答の問は推奨案で確定する。</footer>
+<footer class="m">{inline(fm.get('source', 'このシートは ' + src_path.name + ' から生成'))}。回答は各カードから。推奨があらかじめ選んであり、選択を解除した問は推奨で確定しない。</footer>
 </section>
 <section id="akForm">
 {form}

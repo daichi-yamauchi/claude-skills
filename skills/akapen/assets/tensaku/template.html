@@ -366,7 +366,7 @@ footer.end { border-top: 1px solid var(--line); margin-top: 36px; padding: 18px 
   const TITLE = __TITLE_JSON__;
   const LABEL = __LABEL_JSON__;
   const STORE_KEY = 'akapen-tensaku:' + LABEL + ':' + SOURCE_PATH;
-  const CLOSING = '上の回答を反映して作業を続けてください。お任せの項目は推奨案で確定してください。';
+  const CLOSING = '上の回答を反映して作業を続けてください。未回答と保留の項目は推奨で確定せず、保留の質問に答えてから次の往復で聞き直してください。';
   const TYPE_LABEL = { heading: '見出し', paragraph: '段落', list: '箇条書き', table: '表', quote: '引用', code: 'コード', hr: '区切り線', comment: 'コメント' };
 
   const $ = (id) => document.getElementById(id);

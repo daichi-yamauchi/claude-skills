@@ -1,9 +1,14 @@
 /* ===== akapen 回答フォーム (build.py が埋め込む固定 JS)。QUESTIONS / DRAFT_KEY / DOC は build が先頭で定義する =====
-   回答の形は references/reply-format.md。選択肢: 択一 / 未選択 (= お任せ) / 保留 (聞きたいことがある) */
+   回答の形は references/reply-format.md。推奨は build が checked 済みで出す。選択肢: 択一 (推奨のままなら推奨で確定) / 未回答 (解除した = 保留扱い) / 保留 (聞きたいことがある) */
 function saveDraft() {
   try {
     var d = {};
-    document.querySelectorAll("main input[type=radio]:checked").forEach(function (el) { d[el.name] = el.value; });
+    // 問いごとに選択を記録する。解除した問いは "" を残す (復元時に既定の推奨へ戻さないため)
+    document.querySelectorAll(".qcard[data-qid]").forEach(function (q) {
+      if (!q.querySelector("input[type=radio]")) return;
+      var on = q.querySelector("input[type=radio]:checked");
+      d[q.getAttribute("data-qid")] = on ? on.value : "";
+    });
     document.querySelectorAll("main textarea").forEach(function (el) { if (el.id !== "out" && el.name && el.value) d[el.name] = el.value; });
     localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
   } catch (e) {}
@@ -13,6 +18,10 @@ function loadDraft() {
     var d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
     Object.keys(d).forEach(function (k) {
       try {
+        if (d[k] === "") {
+          document.querySelectorAll('main input[type=radio][name="' + k + '"]').forEach(function (r) { r.checked = false; });
+          return;
+        }
         if (!/_(note|hold)$/.test(k) && k !== "global_note" && /^[A-Za-z0-9]+$/.test(String(d[k]))) {
           var r = document.querySelector('main input[name="' + k + '"][value="' + d[k] + '"]');
           if (r) { r.checked = true; return; }
@@ -29,7 +38,7 @@ document.querySelectorAll(".qcard[data-qid]").forEach(function (q) {
   var radios = q.querySelectorAll("input[type=radio]");
   if (!radios.length) return;
   var a = document.createElement("a");
-  a.textContent = "選択を解除 (お任せに戻す)";
+  a.textContent = "選択を解除 (未回答にする — 推奨で確定せず次の往復に回す)";
   a.className = "clearsel";
   a.onclick = function () { radios.forEach(function (r) { r.checked = false; }); saveDraft(); };
   q.appendChild(a);
@@ -53,7 +62,7 @@ function buildPrompt() {
       lbl = lbl.replace(new RegExp("^" + choiceEl.value + "[.．]\\s*"), "");
       line += choiceEl.value + " — " + (lbl || choiceEl.value);
     } else {
-      line += "(未選択 = お任せ)";
+      line += "(未回答 = 保留)";
     }
     if (note) line += " / 補足: " + oneLine(note);
     lines.push(line);
@@ -62,7 +71,7 @@ function buildPrompt() {
   var gv = g ? g.value.trim() : "";
   lines.push("全体への赤ペン: " + (gv || "(なし)"));
   lines.push("---");
-  lines.push("上の回答を反映して作業を続けてください。お任せの項目は推奨案で確定し、保留の項目は質問に答えてから次の往復で再確認してください。");
+  lines.push("上の回答を反映して作業を続けてください。未回答と保留の項目は推奨で確定せず、保留の質問に答えてから次の往復で聞き直してください。");
   return lines.join("\n");
 }
 function generatePrompt() { copyPrompt(buildPrompt(), ""); }

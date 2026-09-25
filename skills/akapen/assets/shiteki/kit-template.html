@@ -287,11 +287,11 @@ document.addEventListener("selectionchange",function(){
 });
 $("akSelBtn").addEventListener("mousedown",function(e){e.preventDefault()});
 $("akSelBtn").addEventListener("click",function(){this.style.display="none";if(lastSel)openSheet(lastSel,null)});
-/* ── 設問 (#akQs): 各 qcard に「選択を解除 (お任せに戻す)」を付ける。radio の変更は下書きに保存 ── */
+/* ── 設問 (#akQs): 各 qcard に「選択を解除 (未回答にする)」を付ける。radio の変更は下書きに保存 ── */
 function qcards(){return [].slice.call(document.querySelectorAll("#akQs .ak-qcard"))}
 qcards().forEach(function(q){
   var radios=[].slice.call(q.querySelectorAll('input[type="radio"]'));if(!radios.length)return;
-  var a=document.createElement("a");a.className="ak-clearsel";a.textContent="選ばずにこちらへ任せる (解除。別の案は全体コメントへ)";
+  var a=document.createElement("a");a.className="ak-clearsel";a.textContent="選択を解除 (未回答にする — 推奨で確定せず次の往復に回す。別の案は全体コメントへ)";
   a.addEventListener("click",function(){radios.forEach(function(r){r.checked=false});persistChoices()});
   q.appendChild(a);
   radios.forEach(function(r){r.addEventListener("change",persistChoices)});
@@ -320,7 +320,7 @@ function questionLines(){
       txt=txt.replace(/\s*推奨\s*$/,"");                        /* 末尾の「推奨」バッジを外す */
       if(b){txt=txt.replace(new RegExp("^"+on.value+"[.．]\\s*"),"")}  /* 「A.」の重複防止 */
       line+=on.value+" — "+(txt||on.value)}
-    else{line+="(未選択 = お任せ)"}
+    else{line+="(未回答 = 保留)"}
     lines.push(line);
   });
   return lines;
@@ -343,7 +343,7 @@ function buildPrompt(){
   var an=annoLines();
   if(an.length){lines.push("## 指摘");lines=lines.concat(an)}   /* 指摘 0 件なら節ごと出さない */
   lines.push("---");
-  lines.push("上の回答を反映して作業を続けてください。お任せの項目は推奨案で確定してください。");
+  lines.push("上の回答を反映して作業を続けてください。未回答と保留の項目は推奨で確定せず、保留の質問に答えてから次の往復で聞き直してください。");
   return lines.join("\n");
 }
 function setStatus(msg,cls){var el=$("akStatus");el.textContent=msg;el.className="ak-status "+(cls||"")}
