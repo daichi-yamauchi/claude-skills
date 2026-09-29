@@ -11,7 +11,7 @@ label: part4-01                # 必須。【赤ペン回答】の 1 行目・�
 date: 2026-09-14               # キッカーに出す
 round: 1                       # 任意。キッカーに「N 巡目」
 title: PV と Cookie はサイト Worker の中で完結させる   # 必須。要約でなく言い切り
-reader: Claude Code を使う開発者。説明なしで使ってよい語は Worker / D1   # 試問の読者宣言 (build は使わない)
+reader: Cloudflare Workers で開発する人。説明なしで使ってよい語は Worker / D1 / Durable Object / binding / fetch ハンドラ / secret   # 試問の読者宣言。読者が普段使う技術語彙を並べる (build は使わない)
 source: packages/site-worker のコードと 9/13 の打ち合わせメモから       # 任意。footer の出所
 mock: ./mock/index.html         # 任意。動く論点があるときだけ。ソースからの相対パス。ローカルは file:// ボタン、--hosted では相対リンク (モックも一緒に公開する)
 ---
