@@ -42,7 +42,7 @@ HTML 1 枚で自己完結する。ローカルでは `file://` で開き、人�
 1. **論点ツリーを作る** — 決めるべきことを列挙し、「A が決まらないと B は聞けない」の依存で並べる。**フロンティア** = 前提が全部決まっていて今聞ける問い。頭の中でよい (長ければ `./akapen/<topic>-tree.md` に書く)
 2. **事実を調べる** — フロンティアの問いに要る事実 (現状のコード・実測・スクショ) を自分で集める。事実で答えが決まる問いはツリーから消す
 3. **ラウンドを組む** — フロンティアを 2 つに分ける。絵が要る問い → シート (4 問まで、超えたら依存の浅い順に次ラウンドへ)。絵が要らない問い → chat。シートが 0 問なら chat だけのラウンドでよい (その場合 4〜5 は飛ばす)
-4. **シートのソースを書く** — `./akapen/<topic>-<NN>.akapen.md` を `references/source-format.md` の書式で。図は `references/fig-dsl.md`。書き方の規律は `references/sheet-rules.md`。`python3 "<skill>/assets/build.py" ./akapen/<topic>-<NN>.akapen.md --check` で警告を潰してから `-o ./akapen/<topic>-<NN>.html` で生成
+4. **シートのソースを書く** — `./akapen/<topic>-<NN>.akapen.md` を `references/source-format.md` の書式で。図は `references/fig-dsl.md`。書き方の規律は `references/sheet-rules.md`。`python3 "<skill>/assets/build.py" ./akapen/<topic>-<NN>.akapen.md --check` で警告を潰してから `-o ./akapen/<topic>-<NN>.html` で生成。続けて `references/yomiyasu.md` の手順で、yomiyasu を読み込んだ subagent にソースの文体を直させて再 build する (yomiyasu が無い環境では飛ばす)
 5. **試問 (preflight)** — `references/preflight.md` の手順で、文脈ゼロの subagent に**ソース (.akapen.md) のパス**と読者宣言だけ渡す (HTML は渡さない — 大きいだけで判定に要らない)。`Agent` は同期で待つ。落ちた問いを直して再 build。計 2 巡で打ち切る
 6. **出題して待つ** — 1 つのメッセージで (a) chat の問いを grilling の型で並べ、(b) シートを人に届けて案内文を出し、応答を終える。chat の問いの型:
    ```
@@ -73,7 +73,7 @@ HTML 1 枚で自己完結する。ローカルでは `file://` で開き、人�
 - **`open` が無いだけの環境と、クラウドは別物** — 人が同じ機械にいるなら絶対パスと `file://` URL を渡せば足りる。人がこの機械のファイルを開けないなら `file://` は届かないので、Artifact で公開する
 - **クラウドで公開するとシートの中身が外に出る** — クライアント名・`file:line`・スクショが載る。外に出せない題材では絵の要る問いを落として chat だけで回すか、ローカルで作業するときまで持ち越す。判断はユーザーに聞く
 - **公開するシートは `--hosted` で build する** — 付け忘れるとモックのボタンが `file://` のまま開けないリンクになる (モックが無いシートでは差は出ない)
-- **試問の Agent を background で立てない** — 結果を読まずに人へ出すことになる
+- **試問と文体直しの Agent を background で立てない** — 結果を読まずに人へ出すことになる
 - **label はシートごとに一意** (`part4-01`, `part4-02`)。回答 1 行目の【赤ペン回答】ラベルと localStorage の下書きキーになる。使い回すと別シートの下書きが復元される
 - **図の座標は箱の左上と幅だけ** — 高さと線の座標を書き足しても無視される (ブラウザで実測する)。箱が伸びたぶんは下の行が自動で下がる
 - **選択肢の絵は `fig:` で参照する** — 図を 2 回書かない。`fig:` で結んだ図は定義の位置には出ず、カードの選択肢の直下にだけ出る
@@ -87,6 +87,7 @@ HTML 1 枚で自己完結する。ローカルでは `file://` で開き、人�
 - `references/fig-dsl.md` — 図の DSL (fig / seq / svg / shot)。箱・矢印・zone・時間軸・シーケンス図
 - `references/sheet-rules.md` — シートの規律 (骨格・絵の規律・問いカード・文章)。build が担う部分は書いていない
 - `references/delivery.md` — シートの届け方 2 経路 (ローカルの `file://` / クラウドの Artifact 公開)。案内文・モックの扱い・外に出る情報。**クラウドで出題する前に Read**
+- `references/yomiyasu.md` — 試問の前の文体直し。触ってよい所・触らない所、Agent の prompt 雛形
 - `references/preflight.md` — 試問 5 問、Agent の prompt 雛形、打ち切り規則
 - `references/reply-format.md` — 【赤ペン回答】固定形 (3 モード共通、未回答・保留行を含む) と chat の返信ひな形
 - `assets/build.py` — ソース → HTML。`--check` で検査だけ。`--help` で引数
